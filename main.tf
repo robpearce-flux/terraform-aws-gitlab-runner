@@ -65,7 +65,7 @@ locals {
       runners_token                           = var.runners_token
       secure_parameter_store_runner_token_key = local.secure_parameter_store_runner_token_key
       secure_parameter_store_region           = var.aws_region
-      gitlab_runner_registration_token        = var.gitlab_runner_registration_config["registration_token"]
+      token_secret_id                         = var.gitlab_runner_registration_config["token_secret_id"]
       giltab_runner_description               = var.gitlab_runner_registration_config["description"]
       gitlab_runner_tag_list                  = var.gitlab_runner_registration_config["tag_list"]
       gitlab_runner_locked_to_project         = var.gitlab_runner_registration_config["locked_to_project"]

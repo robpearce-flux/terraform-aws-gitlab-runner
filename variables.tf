@@ -441,7 +441,7 @@ variable "gitlab_runner_registration_config" {
   type        = map(string)
 
   default = {
-    registration_token = ""
+    token_secret_id    = ""
     tag_list           = ""
     description        = ""
     locked_to_project  = ""
