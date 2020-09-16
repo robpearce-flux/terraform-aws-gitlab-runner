@@ -13,7 +13,15 @@
             "Action": [
                 "ssm:GetParameters"
             ],
-            "Resource": "${arn_format}:ssm:*"
+            "Resource": "${arn_format}:ssm:*:*:parameter/*",
+
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:GetSecretValue"
+            ],
+            "Resource": "arn:aws:secretsmanager:*:*:secret:*runner-token*"
         }
     ]
 }
