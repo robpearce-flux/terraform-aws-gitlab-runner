@@ -57,7 +57,7 @@ token=$(aws ssm get-parameters --names "${secure_parameter_store_runner_token_ke
 if [[ `echo ${runners_token}` == "__REPLACED_BY_USER_DATA__" && `echo $token` == "null" ]]
 then
   token=$(curl --request POST -L "${runners_gitlab_url}/api/v4/runners" \
-    --form "token=$(aws secretsmanager get-secret-value --secret-id ${token_secret_id} --region ${secure_parameter_store_region} --query SecretString --output text)" \
+    --form "token=$(aws ssm get-parameters --names ${token_secret_id} --region ${secure_parameter_store_region} --with-decryption | jq -r ".Parameters | .[0] | .Value)" \
     --form "tag_list=${gitlab_runner_tag_list}" \
     --form "description=${giltab_runner_description}" \
     --form "locked=${gitlab_runner_locked_to_project}" \
@@ -95,7 +95,7 @@ stop() {
     return \$retval
 }
 
-# Map these to start just to be redunant.
+# Map these to start just to be redundant.
 # We don't want to run Stop outside of shutdown.
 restart() {
   start
