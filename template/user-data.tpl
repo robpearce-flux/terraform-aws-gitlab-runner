@@ -2,7 +2,11 @@
 exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
 
 export http_proxy=${http_proxy}
+export HTTP_PROXY=${http_proxy}
 export https_proxy=${https_proxy}
+export HTTPS_PROXY=${https_proxy}
+export no_proxy=169.254.169.254
+export NO_PROXY=169.254.169.254
 
 if [[ $(echo ${user_data_trace_log}) == false ]]; then
   set -x
