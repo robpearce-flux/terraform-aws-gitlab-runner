@@ -1,21 +1,24 @@
 #!/bin/bash -e
 exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
 
+mkdir /etc/systemd/system/gitlab-runner.service.d
+echo "[Service]
+Environment=\"HTTP_PROXY=http://hq-gateway-syd4:8080/\"
+Environment=\"HTTPS_PROXY=http://hq-gateway-syd4:8080/\"" > /etc/systemd/system/gitlab-runner.service.d/http-proxy.conf
+
 echo "http_proxy=${http_proxy}
-HTTP_PROXY=${http_proxy}
-
-https_proxy=${https_proxy}
-HTTPS_PROXY=${http_proxy}
-
 no_proxy=169.254.169.254
+https_proxy=${https_proxy}
+
+HTTP_PROXY=${http_proxy}
+HTTPS_PROXY=${http_proxy}
 NO_PROXY=169.254.169.254" >> /etc/profile
 
+# Some tools seem to want uppercase and some lower, so lets just do both.
 export http_proxy=${http_proxy}
 export HTTP_PROXY=${http_proxy}
-# For aws cli tools which use golang - uppercase
 export https_proxy=${https_proxy}
 export HTTPS_PROXY=${https_proxy}
-
 export no_proxy=169.254.169.254
 export NO_PROXY=169.254.169.254
 
