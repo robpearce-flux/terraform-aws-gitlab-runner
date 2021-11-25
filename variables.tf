@@ -25,6 +25,16 @@ variable "vpc_id" {
   type        = string
 }
 
+variable "http_proxy" {
+  description = "An HTTP Proxy to use for outbound connections"
+  type        = string
+}
+
+variable "https_proxy" {
+  description = "An HTTPS Proxy to use for outbound connections"
+  type        = string
+}
+
 variable "subnet_id_runners" {
   description = "List of subnets used for hosting the gitlab-runners."
   type        = string

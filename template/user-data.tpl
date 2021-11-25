@@ -1,6 +1,9 @@
 #!/bin/bash -e
 exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
 
+export http_proxy=${http_proxy}
+export https_proxy=${https_proxy}
+
 if [[ $(echo ${user_data_trace_log}) == false ]]; then
   set -x
 fi
