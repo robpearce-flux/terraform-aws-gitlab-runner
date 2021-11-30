@@ -154,9 +154,25 @@ locals {
       bucket_name                       = local.bucket_name
       shared_cache                      = var.cache_shared
       sentry_dsn                        = var.sentry_dsn
+      machine_userdata_filepath         = var.machine_userdata_filepath
     }
   )
 }
+
+# We need to make a userdata file on disk to pass into the docker+machine executor
+data "template_file" "machine_userdata" {
+  template = "template/docker_machine_userdata.tpl"
+  vars = {
+    http_proxy  = var.http_proxy
+    https_proxy = var.https_proxy
+  }
+}
+
+resource "local_file" "machine_userdata" {
+  filename = "var.machine_userdata_filepath"
+  content = data.template_file.machine_userdata.rendered
+}
+
 
 data "aws_ami" "docker-machine" {
   most_recent = "true"

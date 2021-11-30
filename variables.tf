@@ -772,3 +772,9 @@ variable "docker_machine_egress_rules" {
     description      = "Allow all egress traffic for docker machine build runners"
   }]
 }
+
+variable "machine_userdata_filepath" {
+  description = "Where on the gitlab runner to store the userdata for the docker machines"
+  default     = "/root/machine-userdata"
+  type        = string
+}
