@@ -1,20 +1,22 @@
 #!/bin/bash -e
 exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
 
+# Set proxy for gitlab runner service
 mkdir /etc/systemd/system/gitlab-runner.service.d
 echo "[Service]
-Environment=\"HTTP_PROXY=http://hq-gateway-syd4:8080/\"
-Environment=\"HTTPS_PROXY=http://hq-gateway-syd4:8080/\"" > /etc/systemd/system/gitlab-runner.service.d/http-proxy.conf
+Environment=\"http_proxy=${http_proxy}\"
+Environment=\"https_proxy=${http_proxy}\
+Environment=\"no_proxy=169.254.169.254" > /etc/systemd/system/gitlab-runner.service.d/http-proxy.conf
 
+# Set proxy for anyone who shells in
 echo "http_proxy=${http_proxy}
-no_proxy=169.254.169.254
 https_proxy=${https_proxy}
-
+no_proxy=169.254.169.254
 HTTP_PROXY=${http_proxy}
 HTTPS_PROXY=${http_proxy}
 NO_PROXY=169.254.169.254" >> /etc/profile
 
-# Some tools seem to want uppercase and some lower, so lets just do both.
+# Some tools want uppercase and some lower, so lets just do both.
 export http_proxy=${http_proxy}
 export HTTP_PROXY=${http_proxy}
 export https_proxy=${https_proxy}
