@@ -5,7 +5,7 @@ exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&
 mkdir /etc/systemd/system/gitlab-runner.service.d
 echo "[Service]
 Environment=\"http_proxy=${http_proxy}\"
-Environment=\"https_proxy=${http_proxy}\
+Environment=\"https_proxy=${http_proxy}\"
 Environment=\"no_proxy=169.254.169.254" > /etc/systemd/system/gitlab-runner.service.d/http-proxy.conf
 
 # Set proxy for anyone who shells in
