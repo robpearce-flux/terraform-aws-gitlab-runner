@@ -8,13 +8,7 @@ Environment=\"http_proxy=${http_proxy}\"
 Environment=\"https_proxy=${http_proxy}\"
 Environment=\"no_proxy=169.254.169.254\"" > /etc/systemd/system/gitlab-runner.service.d/http-proxy.conf
 
-# Set proxy for anyone who shells in
-echo "http_proxy=${http_proxy}
-https_proxy=${https_proxy}
-no_proxy=169.254.169.254
-HTTP_PROXY=${http_proxy}
-HTTPS_PROXY=${http_proxy}
-NO_PROXY=169.254.169.254" >> /etc/profile
+echo "proxy=http://${http_proxy}" >> /etc/yum.conf
 
 # Some tools want uppercase and some lower, so lets just do both.
 export http_proxy=${http_proxy}
