@@ -58,7 +58,7 @@ sentry_dsn = "${sentry_dsn}"
       "amazonec2-monitoring=${runners_monitoring}",
       "amazonec2-iam-instance-profile=%{ if runners_iam_instance_profile_name != "" }${runners_iam_instance_profile_name}%{ else }${runners_instance_profile}%{ endif ~}",
       "amazonec2-root-size=${runners_root_size}",
-      "amazonec2-ami=${runners_ami},"
+      "amazonec2-ami=${runners_ami}",
       "amazonec2-userdata=${machine_userdata_filepath}"
       ${docker_machine_options}
     ]
