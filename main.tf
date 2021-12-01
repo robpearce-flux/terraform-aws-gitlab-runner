@@ -155,6 +155,7 @@ locals {
       shared_cache                      = var.cache_shared
       sentry_dsn                        = var.sentry_dsn
       machine_userdata_filepath         = var.machine_userdata_filepath
+      machine_userdata_b64              = filebase64(local_file.machine_userdata.filename)
     }
   )
 }
@@ -172,6 +173,8 @@ resource "local_file" "machine_userdata" {
   filename = "var.machine_userdata_filepath"
   content = data.template_file.machine_userdata.rendered
 }
+
+
 
 
 data "aws_ami" "docker-machine" {
