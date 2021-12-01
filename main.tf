@@ -170,7 +170,7 @@ data "template_file" "machine_userdata" {
 }
 
 resource "local_file" "machine_userdata" {
-  filename = "var.machine_userdata_filepath"
+  filename = var.machine_userdata_filepath
   content = data.template_file.machine_userdata.rendered
 }
 
