@@ -18,9 +18,13 @@ export HTTPS_PROXY=${https_proxy}
 export no_proxy=169.254.169.254
 export NO_PROXY=169.254.169.254
 
-echo "#!/bin/bash -e" > /root/machine-userdata
-echo "echo \"http_proxy=\"http://${http_proxy}\" >> /etc/environment" >> /root/machine-userdata
-echo "echo \"https_proxy=\"https://${https_proxy}\" >> /etc/environment" >> /root/machine-userdata
+echo "#!/bin/bash -e" >> /root/machine-userdata
+echo "echo \"http_proxy=http://${http_proxy}\" >> /etc/environment" >> /root/machine-userdata
+echo "echo \"https_proxy=https://${https_proxy}\" >> /etc/environment" >> /root/machine-userdata
+
+echo "Acquire::http::Proxy \"http://${http_proxy}/\";" >> /etc/apt/apt.conf.d/proxy.conf
+echo "Acquire::https::Proxy \"https://${https_proxy}/\";" >> /etc/apt/apt.conf.d/proxy.conf
+
 
 
 if [[ $(echo ${user_data_trace_log}) == false ]]; then
