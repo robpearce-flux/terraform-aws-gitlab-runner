@@ -20,17 +20,7 @@ export NO_PROXY=169.254.169.254
 
 echo "#!/bin/bash -e
 echo \"http_proxy=\"http://${http_proxy}\"\"
-\"https_proxy=\"https://${https_proxy}\"\" >> /etc/environment
-
-echo \"Acquire::http::Proxy \"http://${http_proxy}/\";\"
-\"Acquire::https::Proxy \"https://${https_proxy}/\";\" >> /etc/apt/apt.conf.d/proxy.conf
-
-mkdir -p /etc/systemd/system/docker.service.d/
-echo \"[Service]
-Environment=\"http_proxy=http://${http_proxy}\"
-Environment=\"https_proxy=http://${https_proxy}\"
-Environment=\"no_proxy=169.254.169.254\"\" > /etc/systemd/system/docker.service.d/http-proxy.conf
-\" > /root/machine-userdata
+echo \"https_proxy=\"https://${https_proxy}\"\" >> /etc/environment" > /root/machine-userdata
 
 if [[ $(echo ${user_data_trace_log}) == false ]]; then
   set -x
