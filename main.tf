@@ -61,7 +61,7 @@ locals {
       gitlab_runner       = local.template_gitlab_runner
       user_data_trace_log = var.enable_runner_user_data_trace_log
       machine_userdata_filepath         = var.machine_userdata_filepath
-      machine_userdata_b64              = filebase64(data.template_file.machine_userdata.rendered)
+      machine_userdata_b64              = encodebase64(templatefile("template/docker_machine_userdata.tpl", { http_proxy = var.http_proxy, https_proxy = var.https_proxy }))
   })
 
   template_eip = templatefile("${path.module}/template/eip.tpl", {
@@ -157,18 +157,9 @@ locals {
       shared_cache                      = var.cache_shared
       sentry_dsn                        = var.sentry_dsn
       machine_userdata_filepath         = var.machine_userdata_filepath
-      machine_userdata_b64              = filebase64(data.template_file.machine_userdata.rendered)
+      machine_userdata_b64              = encodebase64(templatefile("template/docker_machine_userdata.tpl", { http_proxy = var.http_proxy, https_proxy = var.https_proxy }))
     }
   )
-}
-
-# We need to make a userdata file on disk to pass into the docker+machine executor
-data "template_file" "machine_userdata" {
-  template = "template/docker_machine_userdata.tpl"
-  vars = {
-    http_proxy  = var.http_proxy
-    https_proxy = var.https_proxy
-  }
 }
 
 data "aws_ami" "docker-machine" {
