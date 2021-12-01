@@ -20,7 +20,7 @@ export NO_PROXY=169.254.169.254
 
 # Needed for docker-machine to shell out to the new instance
 echo "http_proxy=\"http://${http_proxy}\"" >> /etc/environment
-echo "https_proxy=\"https://${https_proxy}\"" >> /etc/environment
+echo "https_proxy=\"http://${https_proxy}\"" >> /etc/environment
 
 echo "${machine_userdata_b64}" | base64 -d > ${machine_userdata_filepath}
 

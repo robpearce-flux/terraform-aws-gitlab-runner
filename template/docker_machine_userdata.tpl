@@ -7,10 +7,10 @@ export HTTPS_PROXY="http://${https_proxy}"
 export NO_PROXY=169.254.169.254
 
 echo "http_proxy=\"http://${http_proxy}\"" >> /etc/environment
-echo "https_proxy=\"https://${https_proxy}\"" >> /etc/environment
+echo "https_proxy=\"http://${https_proxy}\"" >> /etc/environment
 
 echo "Acquire::http::Proxy \"http://${http_proxy}/\";" >> /etc/apt/apt.conf.d/proxy.conf
-echo "Acquire::https::Proxy \"https://${https_proxy}/\";" >> /etc/apt/apt.conf.d/proxy.conf
+echo "Acquire::https::Proxy \"http://${https_proxy}/\";" >> /etc/apt/apt.conf.d/proxy.conf
 
 mkdir -p /etc/systemd/system/docker.service.d/
 echo "[Service]
