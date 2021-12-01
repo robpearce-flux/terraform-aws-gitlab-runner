@@ -18,13 +18,20 @@ export HTTPS_PROXY=${https_proxy}
 export no_proxy=169.254.169.254
 export NO_PROXY=169.254.169.254
 
+# Create a userdata on disk for the docker machine, in this userdata for the gitlab runner.
+# I'm aware that this is kinda horrific, but doing it line by line is the only way my brain can take the shell escaping needed
 echo "#!/bin/bash -e" >> /root/machine-userdata
 echo "echo \"http_proxy=http://${http_proxy}\" >> /etc/environment" >> /root/machine-userdata
 echo "echo \"https_proxy=https://${https_proxy}\" >> /etc/environment" >> /root/machine-userdata
 
-echo "Acquire::http::Proxy \"http://${http_proxy}\"; >> /etc/apt/apt.conf.d/proxy.conf" >> /root/machine-userdata
-echo "Acquire::https::Proxy \"https://${https_proxy}\"; >> /etc/apt/apt.conf.d/proxy.conf" >> /root/machine-userdata
+echo "echo \"Acquire::http::Proxy \"http://${http_proxy}\"; >> /etc/apt/apt.conf.d/proxy.conf" >> /root/machine-userdata
+echo "echo \"Acquire::https::Proxy \"https://${https_proxy}\"; >> /etc/apt/apt.conf.d/proxy.conf" >> /root/machine-userdata
 
+echo "mkdir -p /etc/systemd/system/docker.service.d/" >> /root/machine-userdata
+echo "echo \"[Service]\"" >> /root/machine-userdata
+echo "echo \"Environment=\"http_proxy=http://${http_proxy}\" >> /etc/systemd/system/docker.service.d/http-proxy.conf" >> /root/machine-userdata
+echo "echo \"Environment=\"https_proxy=http://${https_proxy}\" >> /etc/systemd/system/docker.service.d/http-proxy.conf" >> /root/machine-userdata
+echo "echo \"Environment=\"no_proxy=169.254.169.254\" >> /etc/systemd/system/docker.service.d/http-proxy.conf" >> /root/machine-userdata
 
 
 if [[ $(echo ${user_data_trace_log}) == false ]]; then
