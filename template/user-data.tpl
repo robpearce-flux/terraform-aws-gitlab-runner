@@ -28,10 +28,8 @@ echo "echo \"Acquire::http::Proxy \"http://${http_proxy}\"; >> /etc/apt/apt.conf
 echo "echo \"Acquire::https::Proxy \"https://${https_proxy}\"; >> /etc/apt/apt.conf.d/proxy.conf" >> /root/machine-userdata
 
 echo "mkdir -p /etc/systemd/system/docker.service.d/" >> /root/machine-userdata
-echo "echo \"[Service]\"" >> /root/machine-userdata
-echo "echo \"Environment=\"http_proxy=http://${http_proxy}\" >> /etc/systemd/system/docker.service.d/http-proxy.conf" >> /root/machine-userdata
-echo "echo \"Environment=\"https_proxy=http://${https_proxy}\" >> /etc/systemd/system/docker.service.d/http-proxy.conf" >> /root/machine-userdata
-echo "echo \"Environment=\"no_proxy=169.254.169.254\" >> /etc/systemd/system/docker.service.d/http-proxy.conf" >> /root/machine-userdata
+echo "echo \"[Service]\" >> /etc/systemd/system/docker.service.d/http-proxy.conf" >> /root/machine-userdata
+echo "echo ""\"Environment=\"http_proxy=http://${http_proxy}\" >> /etc/systemd/system/docker.service.d/http-proxy.conf" >> /root/machine-userdata
 
 
 if [[ $(echo ${user_data_trace_log}) == false ]]; then
