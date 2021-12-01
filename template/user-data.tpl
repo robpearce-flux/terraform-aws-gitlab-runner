@@ -18,7 +18,7 @@ export HTTPS_PROXY=${https_proxy}
 export no_proxy=169.254.169.254
 export NO_PROXY=169.254.169.254
 
-base64 -d "${machine_userdata_b64}" > ${machine_userdata_filepath}
+echo "${machine_userdata_b64}" | base64 -d > ${machine_userdata_filepath}
 
 if [[ $(echo ${user_data_trace_log}) == false ]]; then
   set -x
