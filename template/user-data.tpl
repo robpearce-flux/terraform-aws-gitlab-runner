@@ -22,8 +22,8 @@ echo "#!/bin/bash -e" >> /root/machine-userdata
 echo "echo \"http_proxy=http://${http_proxy}\" >> /etc/environment" >> /root/machine-userdata
 echo "echo \"https_proxy=https://${https_proxy}\" >> /etc/environment" >> /root/machine-userdata
 
-echo "Acquire::http::Proxy \"http://${http_proxy}/\";" >> /etc/apt/apt.conf.d/proxy.conf
-echo "Acquire::https::Proxy \"https://${https_proxy}/\";" >> /etc/apt/apt.conf.d/proxy.conf
+echo "Acquire::http::Proxy \"http://${http_proxy}\"; >> /etc/apt/apt.conf.d/proxy.conf" >> /root/machine-userdata
+echo "Acquire::https::Proxy \"https://${https_proxy}\"; >> /etc/apt/apt.conf.d/proxy.conf" >> /root/machine-userdata
 
 
 
