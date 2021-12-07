@@ -19,6 +19,12 @@ export HTTPS_PROXY=${https_proxy}
 export no_proxy=169.254.169.254,10.0.0.0/8
 export NO_PROXY=169.254.169.254,10.0.0.0/8
 
+# Install the ecr credentials helper
+git clone --depth 1 https://github.com/IrmantasM/amazon-ecr-credential-helper.git
+cd amazon-ecr-credential-helper && make docker
+mv ~/amazon-ecr-credential-helper/bin/local/docker-credential-ecr-login /usr/local/bin/docker-credential-ecr-login
+mkdir -p ~/.docker
+echo > ~/.docker/config.json '{ "credsStore": "ecr-login" }'
 
 echo "${machine_userdata_b64}" | base64 -d > ${machine_userdata_filepath}
 
