@@ -1,5 +1,12 @@
 #!/bin/bash -e
 
+export http_proxy=${http_proxy}
+export HTTP_PROXY=${http_proxy}
+export https_proxy=${https_proxy}
+export HTTPS_PROXY=${https_proxy}
+export no_proxy=169.254.169.254,10.0.0.0/8
+export NO_PROXY=169.254.169.254,10.0.0.0/8
+
 # Setup proxy in various places
 echo "http_proxy=\"http://${http_proxy}\"" >> /etc/environment
 echo "https_proxy=\"http://${https_proxy}\"" >> /etc/environment
@@ -16,6 +23,7 @@ Environment=\"https_proxy=http://${https_proxy}\"
 Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/docker.service.d/http-proxy.conf
 
 # Setup ecr credentials helper
-apt install -y amazon-ecr-credential-helper
 mkdir -p /root/.docker/
 echo '{ "credsStore": "ecr-login" }' > /root/.docker/config.json
+
+apt install amazon-ecr-credential-helper
