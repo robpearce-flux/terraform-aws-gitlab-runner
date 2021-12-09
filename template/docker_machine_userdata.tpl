@@ -26,10 +26,9 @@ Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/docke
 mkdir -p /root/.docker/
 echo '{ "credsStore": "ecr-login" }' > /root/.docker/config.json
 
-echo "UPDATE"
-apt-get update
-echo "SLEEPING"
-sleep 20
-echo "INSTALLING"
-apt install amazon-ecr-credential-helper
-echo "INSTALL DONE"
+max_retry=60
+for i in `seq $max_retry`;
+do
+  apt install amazon-ecr-credential-helper && break || sleep 1
+  echo "Sleep [$i] of $[max_retry]"
+done
