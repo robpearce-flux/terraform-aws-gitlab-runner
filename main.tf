@@ -54,6 +54,7 @@ locals {
 
   template_user_data = templatefile("${path.module}/template/user-data.tpl",
     {
+      aws_region          = var.aws_region
       http_proxy          = var.http_proxy
       https_proxy         = var.https_proxy
       eip                 = var.enable_eip ? local.template_eip : ""
