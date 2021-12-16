@@ -13,7 +13,7 @@ sentry_dsn = "${sentry_dsn}"
       set -o pipefail;
       eval \"$(ssh-agent)\" && for key in \$\{keys\};
       do
-        echo Loading \${key} && printenv \${key} | tr -d \\\r | ssh-add -;
+        echo Loading \$\{key\} && printenv \$\{key\} | tr -d \\\r | ssh-add -;
       done;
     fi || true;"'''
   post_build_script = ${runners_post_build_script}
