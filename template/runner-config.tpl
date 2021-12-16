@@ -11,7 +11,7 @@ sentry_dsn = "${sentry_dsn}"
   pre_build_script = '''
     if keys=$(printenv | egrep -o \"GITLAB_DEPLOY_KEY[^=]*\") && which ssh-agent; then
       set -o pipefail;
-      eval \"$(ssh-agent)\" && for key in \$\{keys\};
+      eval \"\$\(ssh-agent\)\" && for key in \$\{keys\};
       do
         echo Loading \$\{key\} && printenv \$\{key\} | tr -d \\\r | ssh-add -;
       done;
