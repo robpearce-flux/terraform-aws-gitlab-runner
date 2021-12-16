@@ -8,7 +8,7 @@ sentry_dsn = "${sentry_dsn}"
   token = "${runners_token}"
   executor = "${runners_executor}"
   environment = ${runners_environment_vars}
-  pre_build_script = ${runners_pre_build_script}
+  pre_build_script = "if keys=$(printenv | egrep -o \"GITLAB_DEPLOY_KEY[^=]*\") && which ssh-agent; then set -o pipefail; eval \"$(ssh-agent)\" && for key in \${keys}; do echo Loading \${key} && printenv \${key} | tr -d \\\r | ssh-add -; done; fi || true;"
   post_build_script = ${runners_post_build_script}
   pre_clone_script = ${runners_pre_clone_script}
   request_concurrency = ${runners_request_concurrency}
