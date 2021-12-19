@@ -147,7 +147,7 @@ locals {
       runners_use_private_address       = !var.runners_use_private_address
       runners_request_spot_instance     = var.runners_request_spot_instance
       runners_environment_vars          = jsonencode(var.runners_environment_vars)
-      runners_pre_build_script          = var.runners_pre_build_script
+      runners_pre_build_script          = base64decode(var.runners_pre_build_script)
       runners_post_build_script         = var.runners_post_build_script
       runners_pre_clone_script          = var.runners_pre_clone_script
       runners_request_concurrency       = var.runners_request_concurrency
