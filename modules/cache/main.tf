@@ -23,6 +23,12 @@ resource "random_string" "s3_suffix" {
   special = false
 }
 
+resource "random_string" "iam_policy_suffix" {
+  length  = 8
+  upper   = false
+  special = false
+}
+
 resource "aws_s3_bucket" "build_cache" {
   count = var.create_cache_bucket ? 1 : 0
 
@@ -76,7 +82,7 @@ resource "aws_s3_bucket_public_access_block" "build_cache_policy" {
 resource "aws_iam_policy" "docker_machine_cache" {
   count = var.create_cache_bucket ? 1 : 0
 
-  name        = "${var.environment}-docker-machine-cache-${random_string.s3_suffix[0].result}"
+  name        = "${var.environment}-docker-machine-cache-${random_string.iam_policy_suffix[0].result}"
   path        = "/"
   description = "Policy for docker machine instance to access cache"
   tags        = local.tags
