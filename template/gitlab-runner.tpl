@@ -85,6 +85,13 @@ fi
 # It is because the Sentry DSN contains forward slashes as it is an URL so it would break out of the sed command with forward slashes as delimiters :)
 sed -i.bak s,__SENTRY_DSN_REPLACED_BY_USER_DATA__,`echo $ssm_sentry_dsn`,g /etc/gitlab-runner/config.toml
 
+
+
+# Dynamically add a tag with the instance that launched the docker machine
+runner_instance_id=$(curl -s 169.254.169.254/latest/meta-data/instance-id)
+sed -i.bak s/amazonec2-tags=/amazonec2-tags=runner_that_launched,`echo $runner_instance_id`,/ /etc/gitlab-runner/config.toml
+
+
 # A small script to remove this runner from being registered with Gitlab.
 cat <<REM > /etc/rc.d/init.d/remove_gitlab_registration
 #!/bin/bash
