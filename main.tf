@@ -322,7 +322,7 @@ module "cache" {
   source = "./modules/cache"
 
   environment = var.environment
-  tags        = merge(local.tags, [var.runner_purpose, "gitlab_runner_cache"])
+  tags        = merge(local.tags, {var.runner_purpose, "gitlab_runner_cache"})
 
   create_cache_bucket                  = var.cache_bucket["create"]
   cache_bucket_prefix                  = var.cache_bucket_prefix
