@@ -99,6 +99,12 @@ variable "ssh_key_pair" {
   default     = null
 }
 
+variable "runner_purpose" {
+  description = "Arbitrary string just used to signify meaning between multiple invocations of the module"
+  type        = string
+  default     = "general"
+}
+
 variable "docker_machine_instance_type" {
   description = "Instance type used for the instances hosting docker-machine."
   type        = string
