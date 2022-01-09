@@ -324,7 +324,7 @@ module "cache" {
   environment = var.environment
   tags        = merge(
   {
-    "module_invocation" = format("%s", var.runner_purpose)
+    "runner_purpose" = format("%s", var.runner_purpose)
   },
   {
     "bucket_used_for" = "gitlab_runner_cache"
