@@ -1,8 +1,8 @@
 #!/bin/bash -e
-export http_proxy=${http_proxy}
-export HTTP_PROXY=${http_proxy}
-export https_proxy=${https_proxy}
-export HTTPS_PROXY=${https_proxy}
+export http_proxy=http://${http_proxy}
+export HTTP_PROXY=http://${http_proxy}
+export https_proxy=http://${https_proxy}
+export HTTPS_PROXY=http://${https_proxy}
 export no_proxy=169.254.169.254,10.0.0.0/8
 export NO_PROXY=169.254.169.254,10.0.0.0/8
 
