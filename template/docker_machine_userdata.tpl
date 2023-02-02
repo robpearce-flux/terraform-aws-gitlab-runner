@@ -1,4 +1,6 @@
+#cloud-boothook
 #!/bin/bash -e
+mkdir /etc/docker
 export http_proxy=http://${http_proxy}
 export HTTP_PROXY=http://${http_proxy}
 export https_proxy=http://${https_proxy}
