@@ -37,7 +37,6 @@ sentry_dsn = "${sentry_dsn}"
       BucketLocation = "${aws_region}"
       Insecure = false
   [runners.machine]
-    MaxGrowthRate = ${runner_max_growth_rate}
     IdleCount = ${runners_idle_count}
     IdleTime = ${runners_idle_time}
     ${runners_max_builds}
