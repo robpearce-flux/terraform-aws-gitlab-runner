@@ -784,3 +784,9 @@ variable "machine_userdata_filepath" {
   default     = "/root/machine-userdata"
   type        = string
 }
+
+variable "runner_max_growth_rate" {
+  description = "How many nodes to spin up at once in response to the job backlog, 0 infinite"
+  default     = 0
+  type        = number
+}
