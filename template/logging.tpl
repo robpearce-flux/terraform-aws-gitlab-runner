@@ -41,7 +41,7 @@ instanceId=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document |
 sed -i -e "s/{instanceId}/$instanceId/g" /etc/awslogs/awslogs.conf
 
 # Setup the HTTP proxy for the cloudwatch logging daemon
-cat > /etc/awslogs/proxy.conf << - EOF
+cat > /etc/awslogs/proxy.conf <<- EOF
 HTTP_PROXY=${http_proxy}
 HTTPS_PROXY=${https_proxy}
 NO_PROXY=169.254.169.254,10.0.0.0/8
