@@ -355,6 +355,11 @@ resource "aws_iam_role" "instance" {
   assume_role_policy   = length(var.instance_role_json) > 0 ? var.instance_role_json : templatefile("${path.module}/policies/instance-role-trust-policy.json", {})
   permissions_boundary = var.permissions_boundary == "" ? null : "${var.arn_format}:iam::${data.aws_caller_identity.current.account_id}:policy/${var.permissions_boundary}"
   tags                 = merge(local.tags, var.role_tags)
+
+  # We prevent the iam roles being destroyed by mistake, because the arn is used in our other accounts.
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 ################################################################################
@@ -431,6 +436,11 @@ resource "aws_iam_role" "docker_machine" {
   assume_role_policy   = length(var.docker_machine_role_json) > 0 ? var.docker_machine_role_json : templatefile("${path.module}/policies/instance-role-trust-policy.json", {})
   permissions_boundary = var.permissions_boundary == "" ? null : "${var.arn_format}:iam::${data.aws_caller_identity.current.account_id}:policy/${var.permissions_boundary}"
   tags                 = local.tags
+
+  # We prevent the iam roles being destroyed by mistake, because the arn is used in our other accounts.
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "aws_iam_instance_profile" "docker_machine" {
