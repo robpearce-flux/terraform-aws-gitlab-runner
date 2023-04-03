@@ -66,7 +66,7 @@ then
     --form "tag_list=${gitlab_runner_tag_list}" \
     --form "description=${giltab_runner_description}" \
     --form "locked=${gitlab_runner_locked_to_project}" \
-    --form "run_untagged=${gitlab_runner_run_untagged}" \
+    --form "run-untagged=${gitlab_runner_run_untagged}" \
     --form "maximum_timeout=${gitlab_runner_maximum_timeout}" \
     --form "access_level=${gitlab_runner_access_level}" \
     | jq -r .token)

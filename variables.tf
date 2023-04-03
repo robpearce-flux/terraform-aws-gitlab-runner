@@ -35,6 +35,11 @@ variable "https_proxy" {
   type        = string
 }
 
+variable "no_proxy" {
+  description = "List of domains to bypass proxy for"
+  type        = string
+}
+
 variable "subnet_id_runners" {
   description = "List of subnets used for hosting the gitlab-runners."
   type        = string

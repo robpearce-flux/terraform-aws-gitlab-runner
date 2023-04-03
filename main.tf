@@ -57,12 +57,13 @@ locals {
       aws_region          = var.aws_region
       http_proxy          = var.http_proxy
       https_proxy         = var.https_proxy
+      no_proxy            = var.no_proxy
       eip                 = var.enable_eip ? local.template_eip : ""
       logging             = var.enable_cloudwatch_logging ? local.logging_user_data : ""
       gitlab_runner       = local.template_gitlab_runner
       user_data_trace_log = var.enable_runner_user_data_trace_log
       machine_userdata_filepath         = var.machine_userdata_filepath
-      machine_userdata_b64              = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", { http_proxy = var.http_proxy, https_proxy = var.https_proxy }))
+      machine_userdata_b64              = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", { http_proxy = var.http_proxy, https_proxy = var.https_proxy, no_proxy = var.no_proxy }))
   })
 
   template_eip = templatefile("${path.module}/template/eip.tpl", {
@@ -159,7 +160,7 @@ locals {
       shared_cache                      = var.cache_shared
       sentry_dsn                        = var.sentry_dsn
       machine_userdata_filepath         = var.machine_userdata_filepath
-      machine_userdata_b64              = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", { http_proxy = var.http_proxy, https_proxy = var.https_proxy }))
+      machine_userdata_b64              = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", { http_proxy = var.http_proxy, https_proxy = var.https_proxy, no_proxy = var.no_proxy }))
     }
   )
 }
