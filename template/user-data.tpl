@@ -21,8 +21,8 @@ export http_proxy=http://${http_proxy}
 export HTTP_PROXY=http://${http_proxy}
 export https_proxy=http://${https_proxy}
 export HTTPS_PROXY=http://${https_proxy}
-export no_proxy=${no_proxy}
-export NO_PROXY=${no_proxy}
+export no_proxy=169.254.169.254,10.0.0.0/8
+export NO_PROXY=169.254.169.254,10.0.0.0/8
 
 echo "${machine_userdata_b64}" | base64 -d > ${machine_userdata_filepath}
 
