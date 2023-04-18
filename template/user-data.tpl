@@ -30,9 +30,10 @@ if [[ $(echo ${user_data_trace_log}) == false ]]; then
   set -x
 fi
 
-# Add current hostname to hosts file
+# Add current hostname and gitlab server private ip to hosts file
 tee /etc/hosts <<EOL
 127.0.0.1   localhost localhost.localdomain $(hostname)
+${git_server_private_ip} ${git_server_domain}
 EOL
 
 ${eip}
