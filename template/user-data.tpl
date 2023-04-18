@@ -6,7 +6,7 @@ mkdir /etc/systemd/system/gitlab-runner.service.d
 echo "[Service]
 Environment=\"http_proxy=http://${http_proxy}\"
 Environment=\"https_proxy=http://${http_proxy}\"
-Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/gitlab-runner.service.d/http-proxy.conf
+Environment=\"no_proxy=${no_proxy}\"" > /etc/systemd/system/gitlab-runner.service.d/http-proxy.conf
 
 # Set the aws region var on the gitlab runner process, needed for ecr login to work
 echo "[Service]
@@ -21,8 +21,8 @@ export http_proxy=http://${http_proxy}
 export HTTP_PROXY=http://${http_proxy}
 export https_proxy=http://${https_proxy}
 export HTTPS_PROXY=http://${https_proxy}
-export no_proxy=169.254.169.254,10.0.0.0/8
-export NO_PROXY=169.254.169.254,10.0.0.0/8
+export no_proxy=${no_proxy}
+export NO_PROXY=${no_proxy}
 
 echo "${machine_userdata_b64}" | base64 -d > ${machine_userdata_filepath}
 
