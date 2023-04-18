@@ -795,3 +795,14 @@ variable "runner_max_growth_rate" {
   default     = 0
   type        = number
 }
+
+variable "gitlab_server_private_ip" {
+  description = "The private ip for the gitlab server, for workers to send traffic to"
+  type        = string
+}
+
+variable "gitlab_server_domain" {
+  description = "The domain of the gitlab server"
+  type        = string
+}
+

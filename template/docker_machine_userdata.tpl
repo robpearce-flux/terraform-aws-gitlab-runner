@@ -26,6 +26,8 @@ systemctl restart docker || true # May not have been installed yet via ssh (timi
 echo "Acquire::http::Proxy \"http://${http_proxy}/\";" >> /etc/apt/apt.conf.d/proxy.conf
 echo "Acquire::https::Proxy \"http://${https_proxy}/\";" >> /etc/apt/apt.conf.d/proxy.conf
 
+echo "${git_server_private_ip} ${git_server_domain}" >> /etc/hosts
+
 apt install amazon-ecr-credential-helper
 # Setup ecr credentials helper
 mkdir -p /root/.docker/
