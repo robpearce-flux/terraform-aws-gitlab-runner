@@ -66,7 +66,9 @@ locals {
       machine_userdata_b64 = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", {
         http_proxy            = var.http_proxy,
         https_proxy           = var.https_proxy,
-        no_proxy              = var.no_proxy
+        no_proxy              = var.no_proxy,
+        git_server_private_ip = var.gitlab_server_private_ip,
+        git_server_domain     = var.gitlab_server_domain
       }))
   })
 
