@@ -63,6 +63,8 @@ locals {
       gitlab_runner             = local.template_gitlab_runner
       user_data_trace_log       = var.enable_runner_user_data_trace_log
       machine_userdata_filepath = var.machine_userdata_filepath
+      git_server_private_ip     = var.gitlab_server_private_ip
+      git_server_domain         = var.gitlab_server_domain
       machine_userdata_b64 = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", {
         http_proxy            = var.http_proxy,
         https_proxy           = var.https_proxy,
@@ -166,10 +168,10 @@ locals {
       shared_cache                      = var.cache_shared
       sentry_dsn                        = var.sentry_dsn
       machine_userdata_filepath         = var.machine_userdata_filepath
-      machine_userdata_b64              = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", {
-        http_proxy = var.http_proxy,
-        https_proxy = var.https_proxy,
-        no_proxy = var.no_proxy,
+      machine_userdata_b64 = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", {
+        http_proxy            = var.http_proxy,
+        https_proxy           = var.https_proxy,
+        no_proxy              = var.no_proxy,
         git_server_private_ip = var.gitlab_server_private_ip,
         git_server_domain     = var.gitlab_server_domain
       }))
