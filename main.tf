@@ -54,16 +54,22 @@ locals {
 
   template_user_data = templatefile("${path.module}/template/user-data.tpl",
     {
-      aws_region          = var.aws_region
-      http_proxy          = var.http_proxy
-      https_proxy         = var.https_proxy
-      no_proxy            = var.no_proxy
-      eip                 = var.enable_eip ? local.template_eip : ""
-      logging             = var.enable_cloudwatch_logging ? local.logging_user_data : ""
-      gitlab_runner       = local.template_gitlab_runner
-      user_data_trace_log = var.enable_runner_user_data_trace_log
-      machine_userdata_filepath         = var.machine_userdata_filepath
-      machine_userdata_b64              = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", { http_proxy = var.http_proxy, https_proxy = var.https_proxy, no_proxy = var.no_proxy }))
+      aws_region                = var.aws_region
+      http_proxy                = var.http_proxy
+      https_proxy               = var.https_proxy
+      no_proxy                  = var.no_proxy
+      eip                       = var.enable_eip ? local.template_eip : ""
+      logging                   = var.enable_cloudwatch_logging ? local.logging_user_data : ""
+      gitlab_runner             = local.template_gitlab_runner
+      user_data_trace_log       = var.enable_runner_user_data_trace_log
+      machine_userdata_filepath = var.machine_userdata_filepath
+      machine_userdata_b64 = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", {
+        http_proxy            = var.http_proxy,
+        https_proxy           = var.https_proxy,
+        no_proxy              = var.no_proxy,
+        git_server_private_ip = var.gitlab_server_private_ip,
+        git_server_domain     = var.gitlab_server_domain
+      }))
   })
 
   template_eip = templatefile("${path.module}/template/eip.tpl", {
@@ -324,14 +330,14 @@ module "cache" {
   source = "./modules/cache"
 
   environment = var.environment
-  tags        = merge(
-  {
-    "runner_purpose" = format("%s", var.runner_purpose)
-  },
-  {
-    "bucket_used_for" = "gitlab_runner_cache"
-  },
-  var.tags
+  tags = merge(
+    {
+      "runner_purpose" = format("%s", var.runner_purpose)
+    },
+    {
+      "bucket_used_for" = "gitlab_runner_cache"
+    },
+    var.tags
   )
 
   create_cache_bucket                  = var.cache_bucket["create"]
