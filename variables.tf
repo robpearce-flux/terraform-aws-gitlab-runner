@@ -806,3 +806,8 @@ variable "gitlab_server_domain" {
   type        = string
 }
 
+variable "extra_hosts" {
+  description = "Additional host entries to put into the containers of the worker nodes"
+  type        = list(string)
+  default     = []
+}

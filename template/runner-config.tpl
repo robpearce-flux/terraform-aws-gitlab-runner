@@ -20,6 +20,7 @@ sentry_dsn = "${sentry_dsn}"
     privileged = ${runners_privileged}
     disable_cache = ${runners_disable_cache}
     volumes = ["/cache"${runners_additional_volumes}]
+    extra_hosts = ${extra_hosts}
     shm_size = ${runners_shm_size}
     pull_policy = "${runners_pull_policy}"
     runtime = "${runners_docker_runtime}"
