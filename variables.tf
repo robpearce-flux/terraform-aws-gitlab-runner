@@ -573,6 +573,7 @@ variable "gitlab_runner_registration_config" {
     run_untagged       = ""
     maximum_timeout    = ""
     access_level       = ""
+    begin_paused       = "false"
   }
 }
 
