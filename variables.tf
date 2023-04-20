@@ -601,6 +601,7 @@ variable "overrides" {
   default = {
     name_sg                     = ""
     name_iam_objects            = ""
+    shared_iam_objects            = ""
     name_runner_agent_instance  = ""
     name_docker_machine_runners = ""
   }
