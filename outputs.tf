@@ -15,12 +15,12 @@ output "runner_cache_bucket_name" {
 
 output "runner_agent_role_arn" {
   description = "ARN of the role used for the ec2 instance for the GitLab runner agent."
-  value       = aws_iam_role.instance.arn
+  value       = data.aws_iam_role.instance.arn
 }
 
 output "runner_agent_role_name" {
   description = "Name of the role used for the ec2 instance for the GitLab runner agent."
-  value       = aws_iam_role.instance.name
+  value       = data.aws_iam_role.instance.name
 }
 
 output "runner_role_arn" {
