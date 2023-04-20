@@ -373,7 +373,7 @@ resource "aws_iam_role" "instance" {
 
   # We prevent the iam roles being destroyed by mistake, because the arn is used in our other accounts.
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 
