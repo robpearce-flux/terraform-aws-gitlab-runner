@@ -16,6 +16,8 @@ locals {
   kms_key          = local.provided_kms_key == "" && var.enable_kms ? aws_kms_key.default[0].arn : local.provided_kms_key
 }
 
+
+# We dont want this to be part of the state file as it breaks during destroy with nodes writing to it, so we've set it count 0 here.
 resource "aws_cloudwatch_log_group" "environment" {
   count             = 0
   name              = var.log_group_name != null ? var.log_group_name : var.environment
