@@ -61,13 +61,18 @@ fi
 token=$(aws ssm get-parameters --names "${secure_parameter_store_runner_token_key}" --with-decryption --region "${secure_parameter_store_region}" | jq -r ".Parameters | .[0] | .Value")
 if [[ `echo ${runners_token}` == "__REPLACED_BY_USER_DATA__" && `echo $token` == "null" ]]
 then
+  run_untagged=""
+  if [ $gitlab_runner_run_untagged == "true" ];
+    run_untagged='--form "run-untagged=true"'
+  fi
   token=$(curl --request POST -L "${runners_gitlab_url}/api/v4/runners" \
     --form "token=${gitlab_runner_registration_token}" \
     --form "paused=${gitlab_runner_begin_paused}" \
     --form "tag_list=${gitlab_runner_tag_list}" \
+    $run_untagged \
     --form "description=${gitlab_runner_description}" \
     --form "locked=${gitlab_runner_locked_to_project}" \
-    --form "run-untagged=${gitlab_runner_run_untagged}" \
+    \
     --form "maximum_timeout=${gitlab_runner_maximum_timeout}" \
     --form "access_level=${gitlab_runner_access_level}" \
     | jq -r .token)
