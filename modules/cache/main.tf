@@ -25,8 +25,17 @@ resource "random_string" "s3_suffix" {
   special = false
 }
 
+
 # ok as user can decide to enable the logging. See aws_s3_bucket_logging resource below.
 # tfsec:ignore:aws-s3-enable-bucket-logging
+
+resource "random_string" "iam_policy_suffix" {
+  length  = 8
+  upper   = false
+  special = false
+}
+
+
 resource "aws_s3_bucket" "build_cache" {
   # checkov:skip=CKV_AWS_21:Versioning can be decided by user
   # checkov:skip=CKV_AWS_144:It's a cache only. Replication not needed.
@@ -105,15 +114,13 @@ resource "aws_s3_bucket_public_access_block" "build_cache_policy" {
 
 resource "aws_s3_bucket_logging" "build_cache" {
   count = var.cache_logging_bucket != null ? 1 : 0
-
   bucket = aws_s3_bucket.build_cache.id
-
   target_bucket = var.cache_logging_bucket
   target_prefix = var.cache_logging_bucket_prefix
 }
 
 resource "aws_iam_policy" "docker_machine_cache" {
-  name        = "${local.name_iam_objects}-docker-machine-cache"
+  name        = "${var.environment}-docker-machine-cache-${random_string.iam_policy_suffix.result}"
   path        = "/"
   description = "Policy for docker machine instance to access cache"
 

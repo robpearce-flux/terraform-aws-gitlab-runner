@@ -27,6 +27,25 @@ variable "vpc_id" {
 
 variable "subnet_id" {
   description = "Subnet id used for the runner and executors. Must belong to the VPC specified above."
+}
+
+variable "http_proxy" {
+  description = "An HTTP Proxy to use for outbound connections"
+  type        = string
+}
+
+variable "https_proxy" {
+  description = "An HTTPS Proxy to use for outbound connections"
+  type        = string
+}
+
+variable "no_proxy" {
+  description = "List of domains to bypass proxy for"
+  type        = string
+}
+
+variable "subnet_id_runners" {
+  description = "List of subnets used for hosting the gitlab-runners."
   type        = string
   default     = "" # TODO remove as soon as subnet_id_runners and subnet_ids_gitlab_runner are gone. Variable is mandatory now.
 }
@@ -105,6 +124,12 @@ variable "docker_machine_instance_metadata_options" {
     http_tokens                 = "required"
     http_put_response_hop_limit = 2
   }
+}
+
+variable "runner_purpose" {
+  description = "Arbitrary string just used to signify meaning between multiple invocations of the module"
+  type        = string
+  default     = "general"
 }
 
 variable "docker_machine_instance_type" {
@@ -612,6 +637,7 @@ variable "gitlab_runner_registration_config" {
     run_untagged       = ""
     maximum_timeout    = ""
     access_level       = ""
+    begin_paused       = "false"
   }
 }
 
@@ -660,6 +686,7 @@ variable "overrides" {
   default = {
     name_sg                     = ""
     name_iam_objects            = ""
+    shared_iam_objects            = ""
     name_runner_agent_instance  = ""
     name_docker_machine_runners = ""
   }
@@ -1008,4 +1035,16 @@ variable "debug" {
     output_runner_config_to_file    = false
     output_runner_user_data_to_file = false
   }
+}
+
+variable "machine_userdata_filepath" {
+  description = "Where on the gitlab runner to store the userdata for the docker machines"
+  default     = "/root/machine-userdata"
+  type        = string
+}
+
+variable "runner_max_growth_rate" {
+  description = "How many nodes to spin up at once in response to the job backlog, 0 infinite"
+  default     = 0
+  type        = number
 }

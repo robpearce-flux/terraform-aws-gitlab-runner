@@ -12,7 +12,7 @@ listen_address = "${prometheus_listen_address}"
   token = "${runners_token}"
   executor = "${runners_executor}"
   environment = ${runners_environment_vars}
-  pre_build_script = ${runners_pre_build_script}
+  pre_build_script = "${runners_pre_build_script}"
   post_build_script = ${runners_post_build_script}
   pre_clone_script = ${runners_pre_clone_script}
   request_concurrency = ${runners_request_concurrency}
@@ -44,6 +44,7 @@ listen_address = "${prometheus_listen_address}"
       BucketLocation = "${aws_region}"
       Insecure = false
   [runners.machine]
+    MaxGrowthRate = ${runner_max_growth_rate}
     IdleCount = ${runners_idle_count}
     IdleTime = ${runners_idle_time}
     ${runners_max_builds}
@@ -69,14 +70,15 @@ listen_address = "${prometheus_listen_address}"
       "amazonec2-monitoring=${runners_monitoring}",
       "amazonec2-iam-instance-profile=%{ if runners_iam_instance_profile_name != "" }${runners_iam_instance_profile_name}%{ else }${runners_instance_profile}%{ endif ~}",
       "amazonec2-root-size=${runners_root_size}",
+      "amazonec2-userdata=${machine_userdata_filepath}"
       "amazonec2-volume-type=${runners_volume_type}",
-      "amazonec2-userdata=%{~ if runners_userdata != "" ~}/etc/gitlab-runner/runners_userdata.sh%{~ endif ~}",
       "amazonec2-ami=${runners_ami}"
       %{~ if use_fleet == true ~}
       ,"amazonec2-ssh-keypath=/root/.ssh/id_rsa",
       "amazonec2-use-fleet=${use_fleet}",
       "amazonec2-launch-template=${launch_template}"
       %{~ endif ~}
+
       ${docker_machine_options}
     ]
 

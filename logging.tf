@@ -9,16 +9,18 @@ locals {
   logging_user_data = templatefile("${path.module}/template/logging.tftpl",
     {
       log_group_name = var.log_group_name != null ? var.log_group_name : var.environment
+      http_proxy     = var.http_proxy
+      https_proxy    = var.https_proxy
   })
   provided_kms_key = var.kms_key_id != "" ? var.kms_key_id : ""
   kms_key          = local.provided_kms_key == "" && var.enable_kms ? aws_kms_key.default[0].arn : local.provided_kms_key
 }
 
+
+# We dont want this to be part of the state file as it breaks during destroy with nodes writing to it, so we've set it count 0 here.
 resource "aws_cloudwatch_log_group" "environment" {
-  count = var.enable_cloudwatch_logging ? 1 : 0
-  name  = var.log_group_name != null ? var.log_group_name : var.environment
-  # ignores a false positive: retention_in_days not set
-  # kics-scan ignore-line
+  count             = 0
+  name              = var.log_group_name != null ? var.log_group_name : var.environment
   retention_in_days = var.cloudwatch_logging_retention_in_days
   tags              = local.tags
 
