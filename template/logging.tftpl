@@ -40,6 +40,13 @@ sed -i -e "s/region = us-east-1/region = $region/g" /etc/awslogs/awscli.conf
 instanceId=$(curl -s -H "X-aws-ec2-metadata-token: $token" http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .instanceId)
 sed -i -e "s/{instanceId}/$instanceId/g" /etc/awslogs/awslogs.conf
 
+# Setup the HTTP proxy for the cloudwatch logging daemon
+cat > /etc/awslogs/proxy.conf <<- EOF
+HTTP_PROXY=${http_proxy}
+HTTPS_PROXY=${https_proxy}
+NO_PROXY=169.254.169.254,10.0.0.0/8
+EOF
+
 if grep -q ':2$' /etc/system-release-cpe  ; then
   # AWS Linux 2 renamed the awslogs service to awslogsd and uses systemd
   systemctl enable awslogsd

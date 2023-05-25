@@ -15,22 +15,22 @@ output "runner_cache_bucket_name" {
 
 output "runner_agent_role_arn" {
   description = "ARN of the role used for the ec2 instance for the GitLab runner agent."
-  value       = local.aws_iam_role_instance_arn
+  value       = data.aws_iam_role.instance.arn
 }
 
 output "runner_agent_role_name" {
   description = "Name of the role used for the ec2 instance for the GitLab runner agent."
-  value       = local.aws_iam_role_instance_name
+  value       = data.aws_iam_role.instance.name
 }
 
 output "runner_role_arn" {
   description = "ARN of the role used for the docker machine runners."
-  value       = length(aws_iam_role.docker_machine) > 0 ? aws_iam_role.docker_machine[0].arn : null
+  value       = data.aws_iam_role.docker_machine.arn
 }
 
 output "runner_role_name" {
   description = "Name of the role used for the docker machine runners."
-  value       = length(aws_iam_role.docker_machine) > 0 ? aws_iam_role.docker_machine[0].name : null
+  value       = data.aws_iam_role.docker_machine.name
 }
 
 output "runner_agent_sg_id" {

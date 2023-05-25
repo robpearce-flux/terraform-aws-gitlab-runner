@@ -25,6 +25,12 @@ resource "random_string" "s3_suffix" {
   special = false
 }
 
+resource "random_string" "iam_policy_suffix" {
+  length  = 8
+  upper   = false
+  special = false
+}
+
 # ok as user can decide to enable the logging. See aws_s3_bucket_logging resource below.
 # tfsec:ignore:aws-s3-enable-bucket-logging
 resource "aws_s3_bucket" "build_cache" {
@@ -113,7 +119,7 @@ resource "aws_s3_bucket_logging" "build_cache" {
 }
 
 resource "aws_iam_policy" "docker_machine_cache" {
-  name        = "${local.name_iam_objects}-docker-machine-cache"
+  name        = "${var.environment}-docker-machine-cache-${random_string.iam_policy_suffix.result}"
   path        = "/"
   description = "Policy for docker machine instance to access cache"
 
