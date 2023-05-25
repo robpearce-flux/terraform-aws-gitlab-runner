@@ -148,6 +148,7 @@ locals {
       runners_pre_clone_script          = var.runners_pre_clone_script
       runners_request_concurrency       = var.runners_request_concurrency
       runners_output_limit              = var.runners_output_limit
+      runners_max_growth_rate            = var.runner_max_growth_rate
       runners_check_interval            = var.runners_check_interval
       runners_volumes_tmpfs             = join("\n", [for v in var.runners_volumes_tmpfs : format("\"%s\" = \"%s\"", v.volume, v.options)])
       runners_services_volumes_tmpfs    = join("\n", [for v in var.runners_services_volumes_tmpfs : format("\"%s\" = \"%s\"", v.volume, v.options)])
