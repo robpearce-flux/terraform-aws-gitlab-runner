@@ -460,8 +460,8 @@ module "cache" {
 ################################################################################
 resource "aws_iam_instance_profile" "instance" {
   count = var.create_runner_iam_role ? 1 : 0
-  name = local.aws_iam_role_instance_name
-  role = local.aws_iam_role_instance_name
+  name = "${local.name_iam_objects}-instance"
+  role = data.aws_iam_role.instance.name
   tags = local.tags
 }
 
@@ -479,10 +479,6 @@ resource "aws_iam_instance_profile" "instance" {
 #  role = data.aws_iam_role.instance.name
 #  tags = local.tags
 #
-#  # We prevent the iam roles being destroyed by mistake, because the arn is used in our other accounts.
-#  lifecycle {
-#    prevent_destroy = false
-#  }
 #}
 
 data "aws_iam_role" "instance" {
