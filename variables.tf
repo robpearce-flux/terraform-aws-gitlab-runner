@@ -3,12 +3,6 @@ variable "aws_region" {
   type        = string
 }
 
-variable "arn_format" {
-  type        = string
-  default     = null
-  description = "Deprecated! Calculated automatically by the module. ARN format to be used. May be changed to support deployment in GovCloud/China regions."
-}
-
 variable "auth_type_cache_sr" {
   description = "A string that declares the AuthenticationType for [runners.cache.s3]. Can either be 'iam' or 'credentials'"
   type        = string

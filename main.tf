@@ -563,7 +563,7 @@ resource "aws_iam_role_policy_attachment" "instance_session_manager_policy" {
 resource "aws_iam_role_policy_attachment" "instance_session_manager_aws_managed" {
   count = var.enable_runner_ssm_access ? 1 : 0
   role       = data.aws_iam_role.instance.name
-  policy_arn = "${var.arn_format}:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 ################################################################################
@@ -713,7 +713,5 @@ module "terminate_agent_hook" {
   name_docker_machine_runners          = local.runner_tags_merged["Name"]
   role_permissions_boundary            = var.permissions_boundary == "" ? null : "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:policy/${var.permissions_boundary}"
   kms_key_id                           = local.kms_key
-  arn_format                           = var.arn_format
-
   tags = local.tags
 }
