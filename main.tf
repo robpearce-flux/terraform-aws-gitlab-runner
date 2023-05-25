@@ -491,7 +491,7 @@ resource "aws_iam_policy" "instance_kms_policy" {
 resource "aws_iam_role_policy_attachment" "instance_kms_policy" {
   count = var.enable_kms ? 1 : 0
 
-  role       = var.create_runner_iam_role ? aws_iam_role.instance[0].name : local.aws_iam_role_instance_name
+  role       = var.create_runner_iam_role ? data.aws_iam_role.instance.name : local.aws_iam_role_instance_name
   policy_arn = aws_iam_policy.instance_kms_policy[0].arn
 }
 
