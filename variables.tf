@@ -692,8 +692,8 @@ variable "overrides" {
   }
 
   validation {
-    condition     = length(var.overrides["name_docker_machine_runners"]) <= 28
-    error_message = "Maximum length for name_docker_machine_runners is 28 characters!"
+    condition     = length(var.overrides["name_docker_machine_runners"]) <= 58
+    error_message = "Maximum length for name_docker_machine_runners is 58 characters!"
   }
 
   validation {
