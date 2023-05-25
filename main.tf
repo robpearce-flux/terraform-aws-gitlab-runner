@@ -160,12 +160,12 @@ locals {
       auth_type                         = var.auth_type_cache_sr
       use_fleet                         = var.use_fleet
       launch_template                   = var.use_fleet == true ? aws_launch_template.fleet_gitlab_runner[0].name : ""
-      #machine_userdata_filepath         = var.machine_userdata_filepath
-      #machine_userdata_b64 = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", {
-      #  http_proxy            = var.http_proxy,
-      #  https_proxy           = var.https_proxy,
-      #  no_proxy              = var.no_proxy
-      #}))
+      machine_userdata_filepath         = var.machine_userdata_filepath
+      machine_userdata_b64 = base64encode(templatefile("${path.module}/template/docker_machine_userdata.tpl", {
+        http_proxy            = var.http_proxy,
+        https_proxy           = var.https_proxy,
+        no_proxy              = var.no_proxy
+      }))
     }
   )
 }
