@@ -686,13 +686,13 @@ variable "overrides" {
   }
 
   validation {
-    condition     = length(var.overrides["name_docker_machine_runners"]) <= 28
-    error_message = "Maximum length for name_docker_machine_runners is 28 characters!"
+    condition     = length(var.overrides["name_docker_machine_runners"]) <= 48  # I changed this (from 28) just picking a number out the air, the limit is more than 28 but there *is* a limit on aws's side - robpearce
+    error_message = "Maximum length for name_docker_machine_runners is 48 characters!"
   }
 
   validation {
-    condition     = var.overrides["name_docker_machine_runners"] == "" || can(regex("^[a-zA-Z0-9\\.-]+$", var.overrides["name_docker_machine_runners"]))
-    error_message = "Valid characters for the docker machine name are: [a-zA-Z0-9\\.-]."
+    condition     = var.overrides["name_docker_machine_runners"] == "" || can(regex("^[a-zA-Z0-9\\.-_]+$", var.overrides["name_docker_machine_runners"])) # Added underscore as that's been ok up to now - robpearce
+    error_message = "Valid characters for the docker machine name are: [a-zA-Z0-9\\.-_]."
   }
 }
 
