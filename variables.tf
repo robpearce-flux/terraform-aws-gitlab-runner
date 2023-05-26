@@ -679,6 +679,8 @@ variable "overrides" {
   type        = map(string)
 
   default = {
+    instance_iam_role_name      = ""
+    docker_machine_iam_role_name = ""
     name_sg                     = ""
     name_iam_objects            = ""
     name_runner_agent_instance  = ""

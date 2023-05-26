@@ -467,7 +467,7 @@ resource "aws_iam_instance_profile" "instance" {
 
 
 data "aws_iam_role" "instance" {
-  name = "${local.shared_iam_objects}-instance"
+  name = "${local.instance_iam_role_name}"
 }
 
 ################################################################################
@@ -577,7 +577,7 @@ resource "aws_iam_role_policy_attachment" "docker_machine_cache_instance" {
 ### docker machine instance policy
 ################################################################################
 data "aws_iam_role" "docker_machine" {
-  name = "${local.shared_iam_objects}-docker-machine"
+  name = "${local.docker_machine_iam_role_name}"
 }
 
 
