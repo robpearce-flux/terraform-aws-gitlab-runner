@@ -22,7 +22,7 @@ systemctl start amazon-ssm-agent
 sleep 5
 
 echo "ENV(MINE): $(cat /proc/$(pidof amazon-ssm-agent)/environ)"
-echo "CAT: $(cat /etc/systemd/system/aws-ssm-agent.service.d/http-proxy.conf)"
+echo "CAT: $(cat /etc/systemd/system/aws-ssm-agent.service.d/override.conf)"
 
 # Set the aws region var on the gitlab runner process, needed for ecr login to work
 echo "[Service]
