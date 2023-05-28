@@ -13,6 +13,9 @@ echo "AFTER SETTING"
 systemctl daemon-reload
 systemctl restart amazon-ssm-agent
 
+
+echo "ENV: $(cat /proc/$(pidof amazon-ssm-agent)/environ)"
+
 # Set the aws region var on the gitlab runner process, needed for ecr login to work
 echo "[Service]
 Environment=\"AWS_REGION=${aws_region}\"" > /etc/systemd/system/gitlab-runner.service.d/aws-region.conf
