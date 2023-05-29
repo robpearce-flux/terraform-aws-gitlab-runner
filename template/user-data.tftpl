@@ -4,7 +4,7 @@ exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&
 # Set proxy for gitlab and ssm services...
 mkdir /etc/systemd/system/gitlab-runner.service.d
 mkdir /etc/systemd/system/aws-ssm-agent.service.d
-echo "PRIOR TO SETTING"
+
 echo "[Service]
 Environment=\"http_proxy=http://${http_proxy}\"
 Environment=\"https_proxy=http://${http_proxy}\"
@@ -13,28 +13,14 @@ Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/gitla
 echo "[Service]
 Environment=\"http_proxy=http://${http_proxy}\"
 Environment=\"https_proxy=http://${http_proxy}\"
-Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/aws-ssm-agent.service.d/override.conf
-echo "AFTER SETTING"
+Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/amazon-ssm-agent.service.d/http-proxy.conf
+
+systemctl daemon-reload
+systemctl restart amazon-ssm-agent
 
 echo 'root:letmeinplease' | chpasswd # TODO DEBUGGING REMOVE THIS !
 
-
 yum install op
-
-systemctl daemon-reload
-sleep 5
-sudo mkdir -p /etc/amazon/ssm
-
-echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCUNuiWq6Af7VmH5BljRkV/ZqhYcSqNcIFH80jaZvYqU+LctpKQFo9CpFMogUckrvHtbkMKtJw6vtXaSAocrx6Fytz7cwL8rrDcPkoMerN8K6QOzXgHVShN4L94j5N5mfzWVXhcWmkhFUOqCESVB7AOmy5Ci+VZ0k+eDrtogpu0stLhyPTJ3587OvrwiCXXILsQbgb2isdqEFnyQWvFB2zzPshOex3RhOmt0p+HxmG811NGlLiFdGPaSxYQl+lfKNRzfYCg53XMHGCXPQgtlfuZDBio1aB+oSesDnP5eychQlZfZjAx3pNhJ8ftcS1pw9Qp78+pW4R+tLkX1urgxoaT robpearce" >  /home/ec2-user/.ssh/authorized_keys
-chown ec2-user:ec2-user /home/ec2-user/.ssh/authorized_keys
-chmod 0600 /home/ec2-user/.ssh/authorized_keys
-
-
-cp -p /etc/amazon/ssm/seelog.xml.template /etc/amazon/ssm/seelog.xml
-sed -i 's/minlevel=\"info\"/minlevel=\"debug\"/g' /etc/amazon/ssm/seelog.xml
-
-systemctl restart amazon-ssm-agent
-sleep 5
 
 echo "ENV(MINE): $(cat /proc/$(pidof amazon-ssm-agent)/environ)"
 echo "CAT: $(cat /etc/systemd/system/aws-ssm-agent.service.d/override.conf)"
