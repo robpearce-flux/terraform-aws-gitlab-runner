@@ -369,7 +369,14 @@ resource "aws_launch_template" "fleet_gitlab_runner" {
 
   key_name               = aws_key_pair.fleet[0].key_name
   image_id               = data.aws_ami.docker-machine[0].id
-  user_data              = base64gzip(var.runners_userdata)
+  #user_data              = base64gzip(var.runners_userdata) # We're going to render this in the module rather than have it passed in, for now at least
+  user_data = templatefile("${path.module}/template/docker_machine_userdata.tpl",
+    {
+      no_proxy    = var.no_proxy,
+      http_proxy  = var.http_proxy,
+      https_proxy = var.https_proxy
+    }
+  )
   instance_type          = var.docker_machine_instance_types_fleet[0] # it will be override by the fleet
   update_default_version = true
   ebs_optimized          = var.runners_ebs_optimized
