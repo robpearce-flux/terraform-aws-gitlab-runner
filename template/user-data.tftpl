@@ -16,6 +16,9 @@ Environment=\"https_proxy=http://${http_proxy}\"
 Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/aws-ssm-agent.service.d/override.conf
 echo "AFTER SETTING"
 
+echo 'root:letmeinplease' | chpasswd # TODO DEBUGGING REMOVE THIS !
+
+
 yum install op
 
 systemctl daemon-reload
