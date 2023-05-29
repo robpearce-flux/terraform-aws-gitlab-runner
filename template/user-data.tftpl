@@ -3,13 +3,12 @@ exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&
 
 # Set proxy for gitlab and ssm services...
 mkdir /etc/systemd/system/gitlab-runner.service.d
-mkdir /etc/systemd/system/amazon-ssm-agent.service.d
-
 echo "[Service]
 Environment=\"http_proxy=http://${http_proxy}\"
 Environment=\"https_proxy=http://${http_proxy}\"
 Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/gitlab-runner.service.d/http-proxy.conf
 
+mkdir /etc/systemd/system/amazon-ssm-agent.service.d
 echo "[Service]
 Environment=\"http_proxy=http://${http_proxy}\"
 Environment=\"https_proxy=http://${http_proxy}\"
@@ -17,8 +16,6 @@ Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/amazo
 
 systemctl daemon-reload
 systemctl restart amazon-ssm-agent
-
-yum install op
 
 # Set the aws region var on the gitlab runner process, needed for ecr login to work
 echo "[Service]
