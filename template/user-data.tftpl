@@ -18,12 +18,17 @@ echo "AFTER SETTING"
 
 systemctl daemon-reload
 sleep 5
+sudo mkdir -p /etc/amazon/ssm
+
+cp -p /etc/amazon/ssm/seelog.xml.template /etc/amazon/ssm/seelog.xml
+sed -i 's/minlevel=\"info\"/minlevel=\"debug\"/g' /etc/amazon/ssm/seelog.xml
+
 systemctl restart amazon-ssm-agent
 sleep 5
 
 echo "ENV(MINE): $(cat /proc/$(pidof amazon-ssm-agent)/environ)"
 echo "CAT: $(cat /etc/systemd/system/aws-ssm-agent.service.d/override.conf)"
-echo "LS: $(cat /etc/systemd/system/aws-ssm-agent.service.d/)"
+echo "LS: $(ls /etc/systemd/system/aws-ssm-agent.service.d/)"
 
 # Set the aws region var on the gitlab runner process, needed for ecr login to work
 echo "[Service]
