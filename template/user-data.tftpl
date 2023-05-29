@@ -18,8 +18,6 @@ Environment=\"no_proxy=169.254.169.254,10.0.0.0/8\"" > /etc/systemd/system/amazo
 systemctl daemon-reload
 systemctl restart amazon-ssm-agent
 
-echo 'root:letmeinplease' | chpasswd # TODO DEBUGGING REMOVE THIS !
-
 yum install op
 
 # Set the aws region var on the gitlab runner process, needed for ecr login to work
