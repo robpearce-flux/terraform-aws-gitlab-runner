@@ -474,7 +474,7 @@ resource "aws_iam_instance_profile" "instance" {
 
 
 data "aws_iam_role" "instance" {
-  name = "${local.shared_iam_objects}-docker-machine"
+  name = "${local.shared_iam_objects}-instance"
 }
 
 ################################################################################
